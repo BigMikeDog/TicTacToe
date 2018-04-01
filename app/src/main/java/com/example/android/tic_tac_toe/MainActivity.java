@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     Context context;
 
     int moves=0;
+    volatile boolean train=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -373,7 +374,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
-        network.backPropagate(boardState);
+        network.backPropagate(boardState,moves);
         network.saveWeights(context);
         network.saveBiases(context);
     }

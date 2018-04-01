@@ -179,7 +179,7 @@ public class NeuralNetwork {
         return orderedCells;
     }
 
-    void backPropagate(String boardState[][]){
+    void backPropagate(String boardState[][],int turn){
         //set all expected values to 0 except for i which goes to 1
         for (int i=0;i<=8;i++){
             expectedActivation[i]=0;
@@ -191,9 +191,9 @@ public class NeuralNetwork {
                 board[inputLookup[r][c]]=boardState[r][c];
             }
         }
-        int position=miniMax(board,1);
+        int position=miniMax(board,1,turn);
         Log.d("process", "backPropagate: Position Expected: "+position);
-        if (position==10|position==-10){return;}
+        if (position!=0&&position!=1&&position!=2&&position!=3&&position!=4&&position!=5&&position!=6&&position!=7&&position!=8){return;}
         expectedActivation[position]=1;
         double weightGradient[][][]=getWeightGradient();
         for (int c=0;c<=2;c++){
@@ -303,18 +303,18 @@ public class NeuralNetwork {
 
 
 
-    private int miniMax(String board[], int p){
+    private int miniMax(String board[], int p,int turn){
         String player[]={"X","O"};
         int victor = checkWin(board);
-        if (victor!=0){return score(victor);}
+        if (victor!=0){return score(victor,turn);}
         if (p==1){
-            int bestValue = Integer.MIN_VALUE;
-            int bestSpot =0;
+            int bestValue=Integer.MIN_VALUE;
+            int bestSpot=0;
 
             for (int i=0;i<board.length;i++){
                 if (!board[i].equals("")){continue;}
                 board[i]=player[p];
-                int value=miniMax(board,0);
+                int value=miniMax(board,0,turn+1);
                 if (value>bestValue){
                     bestValue=value;
                     bestSpot=i;
@@ -328,7 +328,7 @@ public class NeuralNetwork {
             for(int i=0;i<board.length;i++){
                 if (!board[i].equals("")){continue;}
                 board[i]=player[p];
-                int value=miniMax(board,1);
+                int value=miniMax(board,1,turn+1);
                 if (value<bestValue){
                     bestValue=value;
                     bestSpot=i;
@@ -340,12 +340,11 @@ public class NeuralNetwork {
     }
 
     @Contract(pure = true)
-    private int score(int gameState)
-    {
+    private int score(int gameState,int turns){
         if(gameState==2){ //O wins.
-            return 10;
+            return 10/turns;
         }else if(gameState==1){ //X wins
-            return -10;
+            return -10/turns;
         }
         return 0;
     }
