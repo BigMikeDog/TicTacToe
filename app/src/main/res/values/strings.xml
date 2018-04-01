@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Tic-Tac-Toe</string>
+    <string name="button_player_select_2">Two Players</string>
+    <string name="button_player_select_1">Single Player (AI Match)</string>
+    <string name="button_clear_game">Finnish Game</string>
+    <string name="player_one_symbol">X</string>
+    <string name="player_two_symbol">O</string>
+    <string name="empty_symbol"></string>
+    <string name="winning_toast">%s has won!</string>
+    <string name="cat_game">Cats Game, no winner.</string>
+</resources>
